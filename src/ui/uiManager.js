@@ -103,7 +103,8 @@ export class UIManager {
     if (viewer.ambientLightInput) {
       viewer.ambientLightInput.addEventListener("input", (event) => {
         if (viewer.ambientLight)
-          viewer.ambientLight.intensity = parseFloat(event.target.value);
+          viewer.ambientLight.intensity =
+            parseFloat(event.target.value) * Math.PI;
       });
     }
     // Ambient light color control
@@ -118,7 +119,7 @@ export class UIManager {
     if (viewer.keyLightIntensityInput) {
       viewer.keyLightIntensityInput.addEventListener("input", (event) => {
         if (viewer.keyLight)
-          viewer.keyLight.intensity = parseFloat(event.target.value);
+          viewer.keyLight.intensity = parseFloat(event.target.value) * Math.PI;
       });
     }
     // Key light color control
@@ -183,6 +184,57 @@ export class UIManager {
       });
     }
 
+    // Add event listeners for CTA button and upload zone
+    const ctaButton = document.getElementById("cta-button");
+    const uploadZone = document.getElementById("upload-zone");
+
+    if (ctaButton) {
+      ctaButton.addEventListener("click", () => {
+        if (modelUpload) {
+          modelUpload.click();
+        }
+      });
+    }
+
+    if (uploadZone && modelUpload) {
+      // Click handler for upload zone
+      uploadZone.addEventListener("click", (event) => {
+        // Prevent triggering if clicking on the file input itself
+        if (event.target !== modelUpload) {
+          modelUpload.click();
+        }
+      });
+
+      // Drag and drop functionality
+      uploadZone.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        uploadZone.classList.add("drag-over");
+      });
+
+      uploadZone.addEventListener("dragleave", (event) => {
+        event.preventDefault();
+        uploadZone.classList.remove("drag-over");
+      });
+
+      uploadZone.addEventListener("drop", (event) => {
+        event.preventDefault();
+        uploadZone.classList.remove("drag-over");
+
+        const files = event.dataTransfer.files;
+        if (files.length > 0) {
+          const file = files[0];
+          if (
+            file.name.toLowerCase().endsWith(".glb") ||
+            file.name.toLowerCase().endsWith(".gltf")
+          ) {
+            viewer.handleFileUpload(file);
+          } else {
+            alert("Please upload a GLB or GLTF file.");
+          }
+        }
+      });
+    }
+
     // Hemisphere Light Controls
     viewer.hemisphereSkyColorInput.addEventListener("input", (event) => {
       if (viewer.hemisphereLight) {
@@ -196,7 +248,8 @@ export class UIManager {
     });
     viewer.hemisphereIntensityInput.addEventListener("input", (event) => {
       if (viewer.hemisphereLight) {
-        viewer.hemisphereLight.intensity = parseFloat(event.target.value);
+        viewer.hemisphereLight.intensity =
+          parseFloat(event.target.value) * Math.PI;
       }
     });
 

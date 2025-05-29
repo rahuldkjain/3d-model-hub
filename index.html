@@ -105,16 +105,13 @@
                 <span class="feature-tag">No Download</span>
               </div>
 
-              <button
-                class="cta-button"
-                onclick="document.querySelector('.upload-zone').scrollIntoView({behavior: 'smooth'})"
-              >
+              <button class="cta-button" id="cta-button">
                 View 3D Models Now →
               </button>
             </div>
 
             <div class="landing-right">
-              <div class="upload-zone">
+              <div class="upload-zone" id="upload-zone">
                 <div class="rotating-cube">
                   <div class="cube-face front"></div>
                   <div class="cube-face back"></div>
@@ -126,6 +123,9 @@
                 <h3 class="upload-zone-title">Drag & Drop Your Model</h3>
                 <p class="upload-zone-subtitle">
                   Supports GLB • GLTF • Instant Preview
+                </p>
+                <p id="upload-message">
+                  Drag & Drop or Click to Upload (GLB/GLTF)
                 </p>
                 <input type="file" id="modelUpload" accept=".glb,.gltf" />
                 <!-- Spinner is inside the upload zone, hidden initially -->

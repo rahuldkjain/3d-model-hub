@@ -57,8 +57,7 @@ export class SceneInitializer {
     viewer.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Softer shadows
     viewer.renderer.toneMapping = THREE.ACESFilmicToneMapping; // For better color and lighting
     viewer.renderer.toneMappingExposure = 2.0; // Adjusted exposure
-    viewer.renderer.outputEncoding = THREE.sRGBEncoding; // Correct color space
-    viewer.renderer.physicallyCorrectLights = true; // Use physically correct light falloff
+    viewer.renderer.outputColorSpace = THREE.SRGBColorSpace; // Updated from outputEncoding
 
     const container = document.getElementById("canvas-container");
     if (container) {
@@ -79,7 +78,7 @@ export class SceneInitializer {
       // Increased resolution for better reflections
       generateMipmaps: true,
       minFilter: THREE.LinearMipmapLinearFilter,
-      encoding: THREE.sRGBEncoding, // Ensure correct encoding
+      colorSpace: THREE.SRGBColorSpace, // Updated from encoding
     });
     const cubeCamera = new THREE.CubeCamera(0.1, 200, cubeRenderTarget); // Adjusted near/far for typical scene sizes
     cubeCamera.position.set(0, 5, 0); // Positioned slightly above origin
@@ -134,15 +133,16 @@ export class SceneInitializer {
   createLights() {
     const viewer = this.viewer;
     // Ensure UI elements on viewer are initialized by UIManager
+    // Note: Light intensities adjusted for new Three.js lighting system (non-legacy)
     viewer.ambientLight = new THREE.AmbientLight(
       new THREE.Color(viewer.ambientLightColorInput?.value || "#FFFFF0"),
-      parseFloat(viewer.ambientLightInput?.value || 0.7)
+      parseFloat(viewer.ambientLightInput?.value || 0.7) * Math.PI // Multiply by PI for new lighting
     );
     viewer.scene.add(viewer.ambientLight);
 
     viewer.keyLight = new THREE.SpotLight(
       new THREE.Color(viewer.keyLightColorInput?.value || "#FFF5E1"),
-      parseFloat(viewer.keyLightIntensityInput?.value || 6.0)
+      parseFloat(viewer.keyLightIntensityInput?.value || 6.0) * Math.PI // Multiply by PI for new lighting
     );
     viewer.keyLight.position.set(15, 25, 20); // Default position
     viewer.keyLight.target.position.set(0, 2, 0); // Target towards the center, slightly above ground
@@ -169,15 +169,16 @@ export class SceneInitializer {
     viewer.hemisphereLight = new THREE.HemisphereLight(
       new THREE.Color(viewer.hemisphereSkyColorInput?.value || "#FFFAF0"),
       new THREE.Color(viewer.hemisphereGroundColorInput?.value || "#B0C4DE"),
-      parseFloat(viewer.hemisphereIntensityInput?.value || 0.9)
+      parseFloat(viewer.hemisphereIntensityInput?.value || 0.9) * Math.PI // Multiply by PI for new lighting
     );
     viewer.hemisphereLight.position.set(0, 20, 0); // Position it above the scene
     viewer.scene.add(viewer.hemisphereLight);
 
     // Additional Fill and Rim lights for better model definition
+    // Intensities adjusted for new lighting system
     const fillLight = new THREE.SpotLight(
       0xfff8e7,
-      3.0,
+      3.0 * Math.PI, // Adjusted for new lighting
       70,
       Math.PI / 3,
       0.5,
@@ -188,7 +189,10 @@ export class SceneInitializer {
     viewer.scene.add(fillLight);
     viewer.scene.add(fillLight.target);
 
-    const rimLight = new THREE.DirectionalLight(0xfff0db, 3.5); // Softer color, good intensity
+    const rimLight = new THREE.DirectionalLight(
+      0xfff0db,
+      3.5 * Math.PI // Adjusted for new lighting
+    );
     rimLight.position.set(0, 10, -25); // From the back
     rimLight.target.position.set(0, 1, 0);
     viewer.scene.add(rimLight);
@@ -196,15 +200,30 @@ export class SceneInitializer {
 
     // Example of adding point lights for specific accents if needed (like for car wheels)
     // These can be made conditional or part of model-specific setup if they are not general
-    const wheelAccent1 = new THREE.PointLight(0xffddcc, 2.0, 20, 1.5);
+    const wheelAccent1 = new THREE.PointLight(
+      0xffddcc,
+      2.0 * Math.PI, // Adjusted for new lighting
+      20,
+      1.5
+    );
     wheelAccent1.position.set(5, 1, 8); // Example position
     viewer.scene.add(wheelAccent1);
 
-    const wheelAccent2 = new THREE.PointLight(0xccddff, 2.0, 20, 1.5);
+    const wheelAccent2 = new THREE.PointLight(
+      0xccddff,
+      2.0 * Math.PI, // Adjusted for new lighting
+      20,
+      1.5
+    );
     wheelAccent2.position.set(-5, 1, 8); // Example position
     viewer.scene.add(wheelAccent2);
 
-    const rearAccent = new THREE.PointLight(0xfff5e1, 1.5, 25, 1.8);
+    const rearAccent = new THREE.PointLight(
+      0xfff5e1,
+      1.5 * Math.PI, // Adjusted for new lighting
+      25,
+      1.8
+    );
     rearAccent.position.set(0, 3, -10); // Example position
     viewer.scene.add(rearAccent);
 

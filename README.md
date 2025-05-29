@@ -106,13 +106,10 @@ We aim to make 3D Model Hub the best online viewer! Some features we\'re thinkin
 
 ## 🤝 Contributing
 
-Currently, this project is primarily developed by [YOUR_NAME_OR_GITHUB_USERNAME]. As the project matures, contribution guidelines will be established. In the meantime, feel free to open issues for bugs or feature requests!
+Currently, this project is primarily developed by [rahuldkjain](https://github.com/rahuldkjain). As the project matures, contribution guidelines will be established. In the meantime, feel free to open issues for bugs or feature requests!
 
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-(You'll need to create a `LICENSE.md` file with the MIT license text if you choose MIT).
 
 ---
-
-_This README was drafted with the assistance of an AI pair programmer._
