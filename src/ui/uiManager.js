@@ -367,13 +367,20 @@ export class UIManager {
     accordionHeaders.forEach((header) => {
       header.addEventListener("click", () => {
         const content = header.nextElementSibling;
-        // Icon manipulation logic can be re-added if an icon element exists and needs toggling
 
         header.classList.toggle("active");
         content.classList.toggle("active");
 
         if (content.classList.contains("active")) {
-          content.style.maxHeight = content.scrollHeight + "px";
+          // Use a more reliable method to calculate height
+          content.style.maxHeight = "none"; // Temporarily remove max-height
+          const height = content.scrollHeight;
+          content.style.maxHeight = "0"; // Reset to 0 for animation
+
+          // Use requestAnimationFrame to ensure proper calculation
+          requestAnimationFrame(() => {
+            content.style.maxHeight = Math.max(height, 500) + "px"; // Ensure minimum height
+          });
         } else {
           content.style.maxHeight = "0";
         }
@@ -385,6 +392,26 @@ export class UIManager {
         content.style.maxHeight = "0";
       }
     });
+
+    // Add a resize observer to recalculate heights when content changes
+    if (window.ResizeObserver) {
+      const resizeObserver = new ResizeObserver(() => {
+        // Recalculate heights for active accordion sections
+        document
+          .querySelectorAll(".accordion-content.active")
+          .forEach((content) => {
+            content.style.maxHeight = "none";
+            const height = content.scrollHeight;
+            content.style.maxHeight = Math.max(height, 500) + "px";
+          });
+      });
+
+      // Observe the controls panel for size changes
+      const controlsPanel = document.getElementById("controls");
+      if (controlsPanel) {
+        resizeObserver.observe(controlsPanel);
+      }
+    }
   }
 
   showLandingPage() {

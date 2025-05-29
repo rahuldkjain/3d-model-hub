@@ -272,6 +272,9 @@ export class ModelHandler {
     }
 
     if (viewer.infoPanel) {
+      // Preserve the close button by only updating the content, not the entire innerHTML
+      const closeButton = viewer.infoPanel.querySelector("#info-close-button");
+
       viewer.infoPanel.innerHTML = `
         <strong>Controls:</strong><br />
         • Mouse: Orbit camera<br />
@@ -284,6 +287,36 @@ export class ModelHandler {
         originalSize.y * scale
       ).toFixed(2)} x ${(originalSize.z * scale).toFixed(2)} units
       `;
+
+      // Re-add the close button if it existed
+      if (closeButton) {
+        viewer.infoPanel.appendChild(closeButton);
+      } else {
+        // Create the close button if it doesn't exist
+        const newCloseButton = document.createElement("button");
+        newCloseButton.id = "info-close-button";
+        newCloseButton.setAttribute("aria-label", "Close info panel");
+        newCloseButton.style.cssText =
+          "position: absolute !important; top: 8px !important; right: 8px !important; width: 28px !important; height: 28px !important; background: #7c3aed !important; border: 2px solid #ffffff !important; border-radius: 50% !important; color: white !important; font-size: 18px !important; font-weight: bold !important; cursor: pointer !important; z-index: 9999 !important; display: flex !important; align-items: center !important; justify-content: center !important;";
+        newCloseButton.innerHTML = "×";
+        viewer.infoPanel.appendChild(newCloseButton);
+
+        // Re-attach the event listener
+        if (viewer.uiManager && viewer.uiManager.infoCloseButton) {
+          viewer.uiManager.infoCloseButton = newCloseButton;
+          newCloseButton.addEventListener("click", () => {
+            viewer.infoPanel.classList.add("info-hidden-by-user");
+            try {
+              localStorage.setItem("infoPanelClosedByUser", "true");
+            } catch (e) {
+              console.warn(
+                "Could not save info panel preference to localStorage.",
+                e
+              );
+            }
+          });
+        }
+      }
     }
 
     if (viewer.hdriUploadInput) viewer.hdriUploadInput.value = "";

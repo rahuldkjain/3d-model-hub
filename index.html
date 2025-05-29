@@ -3,8 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Essential OG Tags -->
+    <meta
+      property="og:title"
+      content="Free 3D Model Viewer | GLB GLTF Viewer Online - 3D Model Hub"
+    />
+    <meta
+      property="og:description"
+      content="Free online 3D model viewer for GLB and GLTF files. Advanced WebGL rendering with PBR materials, custom lighting, and post-processing effects. View 3D models instantly in your browser."
+    />
+    <meta property="og:image" content="/og-image.png" />
+    <meta
+      property="og:image:alt"
+      content="3D Model Hub interface showing a 3D model with advanced lighting controls"
+    />
+    <meta
+      property="og:url"
+      content="https://rahuldkjain.github.io/3d-model-hub/"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="3D Model Hub" />
+
+    <!-- Additional OG Tags -->
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Free 3D Model Viewer | GLB GLTF Viewer Online"
+    />
+    <meta
+      name="twitter:description"
+      content="Upload and view 3D models online with advanced WebGL rendering, PBR materials, and custom lighting. Works in any browser - no download required."
+    />
+    <meta name="twitter:image" content="/og-image.png" />
+    <meta
+      name="twitter:image:alt"
+      content="3D Model Hub - Free online GLB GLTF viewer"
+    />
+
+    <!-- Core SEO Tags -->
+    <meta
+      name="description"
+      content="Free online 3D model viewer for GLB and GLTF files. Advanced WebGL rendering with PBR materials, custom lighting, post-processing effects. No download required - view 3D models instantly in your browser."
+    />
+    <meta
+      name="keywords"
+      content="3D model viewer, GLB viewer, GLTF viewer, online 3D viewer, free 3D viewer, WebGL viewer, PBR rendering, 3D model browser, three.js viewer, 3D visualization"
+    />
+    <meta name="author" content="3D Model Hub" />
+    <meta name="robots" content="index, follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://rahuldkjain.github.io/3d-model-hub/" />
+
     <title>3D Model Hub</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="index.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -13,747 +72,6 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inter:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <style>
-      :root {
-        --color-background-primary: #4f46e5; /* Updated from logo */
-        --color-background-secondary: #3d38b5; /* Darker shade of primary for secondary */
-        --color-border-subtle: #7c3aed; /* Purple from logo for borders */
-        --color-text-primary: #ffffff; /* White text for contrast */
-        --color-text-secondary: #e0e0e0; /* Lighter grey for secondary text */
-        --color-accent-interactive: #ffffff;
-        --color-accent-muted: #a8a2f5; /* Muted lavender, changed from #C026D3 */
-        --color-panel-hover-bg: #6962d3; /* Lighter shade of primary for hover */
-      }
-
-      #logo {
-        display: block;
-        max-height: 80px;
-        margin: 10px auto;
-        position: absolute;
-        top: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 1001;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: "Inter", sans-serif;
-        overflow: hidden;
-        color: var(--color-text-primary);
-        background: var(--color-background-primary);
-      }
-
-      body.mobile-menu-open {
-        /* Prevent scrolling of body when mobile menu is open */
-        overflow: hidden;
-      }
-
-      #container {
-        /* This is a child of .loader-container */
-        position: relative;
-        width: 100vw;
-        height: 100vh;
-      }
-
-      .loader-container {
-        /* This is a direct child of body */
-        /* Ensure this container takes up full viewport if it's the main scrollable area */
-        width: 100%;
-        height: 100%;
-        /* padding-top: 70px; /* Make space for the logo + margin, adjusted in media query */
-      }
-
-      #canvas-container {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 1;
-      }
-
-      /* Hamburger Menu Button */
-      #hamburger-menu {
-        display: none; /* Hidden by default, shown in media query */
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 1002;
-        background: var(--color-background-secondary);
-        color: var(--color-text-primary);
-        border: 1px solid var(--color-border-subtle);
-        border-radius: 5px;
-        padding: 10px 12px;
-        cursor: pointer;
-        font-size: 1.2rem;
-      }
-
-      #hamburger-menu:hover {
-        background: var(--color-panel-hover-bg);
-      }
-
-      /* Mobile Menu Overlay */
-      #mobile-menu-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        z-index: 998;
-      }
-
-      /* Control Panel Styles */
-      #controls {
-        position: absolute;
-        top: 20px; /* Default for desktop */
-        left: 20px; /* Default for desktop */
-        background: var(--color-background-secondary);
-        padding: 20px;
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
-        border: 1px solid var(--color-border-subtle);
-        min-width: 280px;
-        max-width: 320px;
-        max-height: calc(
-          100vh - 40px - 70px
-        ); /* Desktop: Adjust for logo and padding */
-        overflow-y: auto;
-        z-index: 100;
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-        pointer-events: none;
-      }
-
-      #controls.visible {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        pointer-events: auto;
-      }
-
-      #controls h3 {
-        margin-bottom: 15px;
-        color: var(--color-text-primary);
-        text-align: center;
-      }
-
-      .control-group {
-        margin-bottom: 15px;
-      }
-
-      .control-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 14px;
-        color: var(--color-text-secondary);
-      }
-
-      .control-group input[type="range"] {
-        width: 100%;
-        margin-bottom: 5px;
-      }
-
-      .control-group input[type="color"] {
-        width: 100%;
-        height: 40px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .control-group input[type="number"],
-      .control-group select {
-        width: 100%;
-        padding: 8px;
-        border-radius: 4px;
-        border: 1px solid var(--color-border-subtle);
-        background-color: var(--color-background-primary);
-        color: var(--color-text-primary);
-        margin-top: 4px; /* Add some space above */
-      }
-
-      .control-group select option {
-        background-color: var(--color-background-secondary);
-        color: var(--color-text-primary);
-      }
-
-      .control-group button {
-        width: 100%;
-        padding: 10px;
-        background: var(--color-border-subtle);
-        color: var(--color-text-primary);
-        border: 1px solid var(--color-border-subtle);
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background 0.3s, border-color 0.3s;
-      }
-
-      .control-group button:hover {
-        background: var(--color-panel-hover-bg);
-        border-color: var(--color-panel-hover-bg);
-      }
-
-      .control-group button:active {
-        background: var(--color-background-primary);
-      }
-
-      .button-like-label {
-        display: inline-block;
-        padding: 10px;
-        background: var(--color-border-subtle);
-        color: var(--color-text-primary);
-        border: 1px solid var(--color-border-subtle);
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        text-align: center;
-        width: 100%;
-        transition: background 0.3s, border-color 0.3s;
-      }
-
-      .button-like-label:hover {
-        background: var(--color-panel-hover-bg);
-        border-color: var(--color-panel-hover-bg);
-      }
-
-      .accordion-container {
-        width: 100%;
-      }
-
-      .accordion-section {
-        margin-bottom: 10px;
-      }
-
-      .accordion-header {
-        background-color: var(--color-border-subtle);
-        color: var(--color-text-primary);
-        cursor: pointer;
-        padding: 15px 20px;
-        width: 100%;
-        text-align: left;
-        border: none;
-        border-radius: 5px;
-        outline: none;
-        font-size: 1em;
-        transition: background-color 0.3s ease;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .accordion-header:hover {
-        background-color: var(--color-panel-hover-bg);
-      }
-
-      .accordion-header.active {
-        background-color: var(--color-panel-hover-bg);
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-
-      .accordion-icon {
-        font-size: 1em;
-        transition: transform 0.3s ease;
-      }
-
-      .accordion-header.active .accordion-icon {
-        transform: rotate(45deg);
-      }
-
-      .accordion-content {
-        padding: 0 15px;
-        background-color: var(--color-background-secondary);
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-out, padding 0.3s ease-out; /* Added padding transition */
-        border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
-        border: 1px solid var(--color-border-subtle);
-        border-top: none;
-      }
-      .accordion-content .control-group {
-        margin-bottom: 12px;
-      }
-      .accordion-content .control-group:last-child {
-        margin-bottom: 0;
-      }
-
-      .accordion-content.active {
-        padding: 20px;
-      }
-
-      .action-buttons-container .control-group {
-        margin-bottom: 10px;
-      }
-      .action-buttons-container .control-group:last-child {
-        margin-bottom: 0;
-      }
-
-      /* Landing Page Styles */
-      #loading {
-        position: absolute;
-        top: 0; /* Covers the .loader-container padding */
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        text-align: center;
-        opacity: 1;
-        transition: opacity 0.5s ease-out;
-        overflow: auto; /* Allow scroll on landing page if content overflows */
-        background: var(--color-background-primary); /* Ensure this is set */
-        padding-top: 100px; /* Space for logo and some breathing room */
-      }
-
-      .landing-background-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          125deg,
-          var(--color-background-secondary),
-          #080808,
-          var(--color-background-secondary),
-          #050505
-        );
-        background-size: 300% 300%;
-        animation: gradientAnimation 30s ease infinite;
-        z-index: -1;
-      }
-
-      @keyframes gradientAnimation {
-        0% {
-          background-position: 0% 50%;
-        }
-        25% {
-          background-position: 50% 0%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        75% {
-          background-position: 50% 100%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      #loading.hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      .landing-content {
-        z-index: 1;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        max-width: 800px;
-        animation: fadeInSlideUp 0.8s 0.2s ease-out forwards;
-        opacity: 0;
-      }
-
-      @keyframes fadeInSlideUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .landing-title {
-        font-size: 3.5rem;
-        font-weight: bold;
-        color: var(--color-text-primary);
-        margin-bottom: 0.5rem;
-        letter-spacing: -1px;
-        animation: fadeInSlideUp 0.8s 0.4s ease-out forwards;
-        opacity: 0;
-      }
-
-      .landing-tagline {
-        font-size: 1.25rem;
-        color: var(--color-text-secondary);
-        margin-bottom: 2.5rem;
-        max-width: 600px;
-        animation: fadeInSlideUp 0.8s 0.6s ease-out forwards;
-        opacity: 0;
-      }
-
-      .upload-zone {
-        background: var(--color-background-secondary);
-        border: 2px dashed var(--color-border-subtle);
-        border-radius: 15px;
-        padding: 40px 30px;
-        width: 100%;
-        max-width: 500px;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.3s, border-color 0.3s,
-          box-shadow 0.3s;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        animation: fadeInScaleUp 0.8s 0.8s ease-out forwards;
-        opacity: 0;
-        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
-      }
-
-      @keyframes fadeInScaleUp {
-        from {
-          opacity: 0;
-          transform: scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-
-      .upload-zone:hover {
-        background: var(--color-panel-hover-bg);
-        border-color: var(--color-text-secondary);
-        transform: translateY(-5px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
-      }
-
-      .upload-icon svg {
-        width: 50px;
-        height: 50px;
-        fill: var(--color-accent-muted);
-        margin-bottom: 15px;
-        transition: opacity 0.3s ease-out, fill 0.3s ease-out;
-      }
-
-      .upload-zone:hover .upload-icon svg {
-        fill: var(--color-accent-interactive);
-      }
-
-      #upload-message {
-        font-size: 1.1rem;
-        color: var(--color-text-secondary);
-        margin-bottom: 20px;
-        transition: opacity 0.3s ease-out;
-      }
-
-      .upload-zone.loading .upload-icon,
-      .upload-zone.loading #upload-message {
-        opacity: 0;
-        height: 0;
-        margin-bottom: 0;
-        pointer-events: none;
-      }
-
-      .upload-zone.loading #modelUpload {
-        pointer-events: none;
-      }
-
-      .upload-zone .loader {
-        margin-top: 10px;
-      }
-
-      #modelUpload {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        cursor: pointer;
-      }
-
-      .loader {
-        border: 4px solid var(--color-border-subtle);
-        border-top: 4px solid var(--color-accent-interactive);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-      }
-
-      .loader.hidden {
-        display: none;
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      .features-section {
-        display: flex;
-        justify-content: space-around;
-        width: 100%;
-        margin-top: 3rem; /* Space above features */
-        margin-bottom: 2rem; /* Space below features before end of page */
-        animation: fadeInSlideUp 0.8s 1s ease-out forwards;
-        opacity: 0;
-        flex-wrap: wrap; /* Allow wrapping on smaller screens if needed */
-        gap: 20px; /* Add gap for wrapped items */
-      }
-
-      .feature {
-        background: var(--color-background-secondary);
-        padding: 20px;
-        border-radius: 10px;
-        width: 30%;
-        min-width: 250px; /* Minimum width for feature cards */
-        text-align: center;
-        transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.4);
-        border: 1px solid transparent;
-      }
-
-      .feature:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-        background: var(--color-panel-hover-bg);
-        border-color: var(--color-border-subtle);
-      }
-
-      .feature-icon {
-        font-size: 2rem;
-        display: block;
-        margin-bottom: 10px;
-        color: var(--color-accent-muted);
-        transition: color 0.3s ease-out;
-      }
-
-      .feature:hover .feature-icon {
-        color: var(--color-accent-interactive);
-      }
-
-      .feature h3 {
-        font-size: 1.1rem;
-        margin-bottom: 8px;
-        color: var(--color-text-primary);
-      }
-
-      .feature p {
-        font-size: 0.9rem;
-        color: var(--color-text-secondary);
-      }
-
-      #info {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        background: var(--color-background-secondary);
-        padding: 15px;
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
-        border: 1px solid var(--color-border-subtle);
-        font-size: 12px;
-        color: var(--color-text-secondary);
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-        pointer-events: none;
-        z-index: 90;
-        /* overflow: hidden; */ /* Ensure no accidental overflow hidden */
-      }
-
-      #info.visible {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        pointer-events: auto;
-      }
-
-      #info strong {
-        display: block;
-        margin-bottom: 5px;
-        color: var(--color-text-primary);
-      }
-
-      #info p {
-        margin: 0;
-      }
-
-      #info-close-button {
-        position: absolute;
-        top: 0px; /* Changed to 0 for testing */
-        right: 0px; /* Changed to 0 for testing */
-        width: 30px !important; /* TEMPORARY: Fixed dimensions */
-        height: 30px !important; /* TEMPORARY: Fixed dimensions */
-        background: limegreen !important; /* TEMPORARY: Changed color */
-        border: 3px solid magenta !important; /* TEMPORARY: Changed border */
-        color: black !important; /* Ensure text is visible */
-        font-size: 20px !important; /* Ensure text is large */
-        font-weight: bold;
-        cursor: pointer;
-        padding: 2px 5px;
-        line-height: 1;
-        z-index: 1;
-      }
-      #info-close-button:hover {
-        color: var(--color-text-primary);
-      }
-
-      #info.info-hidden-by-user {
-        display: none !important; /* Override other display styles if user closed it */
-      }
-
-      /* Media Query for Mobile Responsiveness */
-      @media (max-width: 768px) {
-        #logo {
-          max-height: 50px; /* Increased from 35px */
-          top: 10px; /* Adjusted from 12px */
-        }
-
-        #loading {
-          padding-top: 60px; /* Adjusted padding for mobile landing */
-          overflow-x: hidden;
-        }
-
-        .loader-container {
-          padding-top: 0;
-        }
-
-        #hamburger-menu {
-          display: none; /* Now controlled by .viewer-active */
-          padding: 8px 10px; /* Slightly smaller hamburger */
-          font-size: 1.1rem;
-        }
-
-        body.viewer-active #hamburger-menu {
-          display: block; /* Only show hamburger when viewer is active */
-        }
-
-        body.mobile-menu-open #hamburger-menu {
-          display: none; /* Hide hamburger when menu is open */
-        }
-
-        body.mobile-menu-open #logo {
-          z-index: 997; /* Ensure logo is behind open mobile menu */
-        }
-
-        #controls {
-          position: fixed;
-          top: 0;
-          left: -100%;
-          width: 85%;
-          max-width: 300px;
-          height: 100%; /* Full viewport height */
-          max-height: 100vh; /* Explicitly full viewport height */
-          border-radius: 0;
-          border-right: 1px solid var(--color-border-subtle);
-          border-left: none;
-          z-index: 999;
-          opacity: 1;
-          transform: none;
-          transition: left 0.3s ease-out;
-          overflow-y: auto;
-          pointer-events: auto;
-        }
-
-        body.mobile-menu-open #controls {
-          left: 0;
-          box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
-        }
-
-        body.mobile-menu-open #mobile-menu-overlay {
-          display: block;
-        }
-
-        .landing-title {
-          font-size: 1.8rem; /* Further reduced */
-          margin-bottom: 0.3rem;
-        }
-
-        .landing-tagline {
-          font-size: 0.85rem; /* Further reduced */
-          margin-bottom: 1.5rem; /* Reduced margin */
-        }
-
-        .upload-zone {
-          padding: 20px 15px; /* Further reduced padding */
-          max-width: 90%;
-          margin-bottom: 1.5rem; /* Space below upload zone */
-        }
-
-        .upload-icon svg {
-          width: 40px; /* Smaller icon */
-          height: 40px;
-          margin-bottom: 10px;
-        }
-
-        #upload-message {
-          font-size: 0.9rem; /* Smaller text */
-          margin-bottom: 15px;
-        }
-
-        .features-section {
-          flex-direction: column;
-          align-items: center;
-          gap: 15px; /* Reduced gap */
-          margin-top: 1.5rem; /* Reduced margin */
-          width: 95%; /* Ensure it doesn't cause overflow */
-        }
-
-        .feature {
-          width: 90%;
-          max-width: 320px; /* Slightly reduced max-width */
-          min-width: unset;
-          padding: 15px; /* Further reduced padding */
-        }
-
-        .feature-icon {
-          font-size: 1.5rem; /* Smaller icons in features */
-          margin-bottom: 8px;
-        }
-        .feature h3 {
-          font-size: 1rem;
-          margin-bottom: 5px;
-        }
-        .feature p {
-          font-size: 0.8rem;
-        }
-
-        #info {
-          bottom: 10px;
-          left: 10px; /* Changed from right to left */
-          right: auto; /* Remove right positioning */
-          padding: 10px;
-          font-size: 11px;
-          max-width: calc(100% - 20px);
-          z-index: 90; /* Ensure it's below mobile menu if it were to overlap */
-        }
-
-        /* Hide desktop controls panel when hamburger is visible */
-        body:not(.mobile-menu-open) #controls:not([style*="left: 0px"]) {
-          /* This rule ensures that if the menu is not explicitly opened by JS (left:0), 
-            and we are on mobile (hamburger is visible), the panel remains hidden as per its default -100% left.
-            However, the default state of #controls on mobile IS left: -100%, so this might be redundant
-            if JS only ever sets left: 0 or doesn't touch it.
-            The primary mechanism is #controls default left: -100% and body.mobile-menu-open #controls { left: 0; } */
-        }
-      }
-    </style>
   </head>
   <body>
     <img src="assets/3d_model_hub_logo.svg" alt="3D Model Hub Logo" id="logo" />
@@ -773,51 +91,45 @@
           <!-- This is the main landing page container now -->
           <div class="landing-background-overlay"></div>
           <div class="landing-content">
-            <h1 class="landing-title">3D Model Hub</h1>
-            <p class="landing-tagline">
-              Upload, Preview, and Customize Your 3D Models with Ease.
-            </p>
-
-            <div class="upload-zone">
-              <div class="upload-icon">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
-                  />
-                </svg>
-              </div>
-              <!-- This p tag will be updated by JS with loading messages -->
-              <p id="upload-message">
-                Drag & Drop or Click to Upload (GLB/GLTF)
+            <div class="landing-left">
+              <h1 class="landing-title">3D Model Hub</h1>
+              <p class="landing-tagline">
+                Free Online GLB & GLTF Viewer with Advanced WebGL Rendering
               </p>
-              <input type="file" id="modelUpload" accept=".glb,.gltf" />
-              <!-- Spinner is inside the upload zone, hidden initially -->
-              <div class="loader hidden"></div>
+
+              <div class="feature-tags">
+                <span class="feature-tag">PBR Rendering</span>
+                <span class="feature-tag">Custom Lighting</span>
+                <span class="feature-tag">Post-Processing</span>
+                <span class="feature-tag">HDRI Support</span>
+                <span class="feature-tag">No Download</span>
+              </div>
+
+              <button
+                class="cta-button"
+                onclick="document.querySelector('.upload-zone').scrollIntoView({behavior: 'smooth'})"
+              >
+                View 3D Models Now →
+              </button>
             </div>
 
-            <div class="features-section">
-              <div class="feature">
-                <span class="feature-icon"><i class="fas fa-magic"></i></span>
-                <h3>Instant Preview</h3>
-                <p>See your models come to life in seconds.</p>
-              </div>
-              <div class="feature">
-                <span class="feature-icon"
-                  ><i class="fas fa-paint-brush"></i
-                ></span>
-                <h3>Easy Customization</h3>
-                <p>Adjust lights and environment on the fly.</p>
-              </div>
-              <div class="feature">
-                <span class="feature-icon"
-                  ><i class="fas fa-camera-retro"></i
-                ></span>
-                <h3>Quick Export</h3>
-                <p>Save your scene as a PNG image.</p>
+            <div class="landing-right">
+              <div class="upload-zone">
+                <div class="rotating-cube">
+                  <div class="cube-face front"></div>
+                  <div class="cube-face back"></div>
+                  <div class="cube-face right"></div>
+                  <div class="cube-face left"></div>
+                  <div class="cube-face top"></div>
+                  <div class="cube-face bottom"></div>
+                </div>
+                <h3 class="upload-zone-title">Drag & Drop Your Model</h3>
+                <p class="upload-zone-subtitle">
+                  Supports GLB • GLTF • Instant Preview
+                </p>
+                <input type="file" id="modelUpload" accept=".glb,.gltf" />
+                <!-- Spinner is inside the upload zone, hidden initially -->
+                <div class="loader hidden"></div>
               </div>
             </div>
           </div>
@@ -1189,7 +501,7 @@
         <!-- Info Panel - Initially hidden via CSS opacity -->
         <div id="info">
           <button id="info-close-button" aria-label="Close info panel">
-            &times;
+            &#10005;
           </button>
           <strong>Controls:</strong><br />
           • Mouse: Orbit camera<br />
