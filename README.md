@@ -51,9 +51,6 @@
 - **Responsive Design:** Adapts to different screen sizes.
 
 ## 📸 Screenshots
-
-_(Add your screenshots here. Good ideas include: the landing page, the viewer with a model loaded, the control panel open, a close-up showcasing a post-processing effect.)_
-
 **Example:**
 <img width="1713" alt="Ferrari 3D Preview" src="https://github.com/user-attachments/assets/d6b45440-9645-46f9-98d6-5b9117c8146a" />
 <img width="1710" alt="Sneaker 3D Preview" src="https://github.com/user-attachments/assets/f4fbaf43-d4f2-4c60-ad2c-14998b174485" />
