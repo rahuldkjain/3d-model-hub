@@ -11,8 +11,6 @@
 
 **An advanced, web-based 3D model viewer with a focus on high-quality rendering, extensive customization, and a smooth user experience. Built with Three.js.**
 
-**[Live Demo Link (Coming Soon!)](#)** <!-- Replace with your GitHub Pages link -->
-
 ---
 
 3D Model Hub allows you to easily upload, view, and customize 3D models directly in your browser. Whether you\'re a 3D artist, game developer, or just want to explore 3D assets, this tool provides a rich set of features to inspect and present your models beautifully.
@@ -57,8 +55,8 @@
 _(Add your screenshots here. Good ideas include: the landing page, the viewer with a model loaded, the control panel open, a close-up showcasing a post-processing effect.)_
 
 **Example:**
-`![Screenshot of 3D Model Hub UI]([SCREENSHOT_PATH_1])`
-`![Screenshot showing post-processing controls]([SCREENSHOT_PATH_2])`
+<img width="1713" alt="Ferrari 3D Preview" src="https://github.com/user-attachments/assets/d6b45440-9645-46f9-98d6-5b9117c8146a" />
+<img width="1710" alt="Sneaker 3D Preview" src="https://github.com/user-attachments/assets/f4fbaf43-d4f2-4c60-ad2c-14998b174485" />
 
 ## 🛠️ Technology Stack
 
